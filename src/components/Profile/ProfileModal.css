@@ -1,0 +1,84 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: #2a2b2c;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  color: #e3e3e3;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.upload-section, .emoji-section {
+    margin-top: 20px;
+}
+
+.emoji-grid {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.emoji-item {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.emoji-item:hover {
+    transform: scale(1.2);
+}
+
+.close-button {
+    margin-top: 25px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #8ab4f8;
+    color: #131314;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* ... (keep all the existing modal styles) ... */
+
+.feedback-text {
+  min-height: 20px;
+  color: #ccc;
+}
+
+.upload-button-label {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #555;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.upload-button-label:hover {
+  background-color: #666;
+}
+
+.emoji-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
