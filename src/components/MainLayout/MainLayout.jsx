@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import './MainLayout.css';
-import { HiMenu, HiOutlinePlus, HiOutlineCog, HiOutlineLogout } from 'react-icons/hi';
-import { IoSend } from "react-icons/io5";
+import { HiMenu } from "react-icons/hi/index.js";
+import { HiOutlinePlus } from "react-icons/hi/index.js";
+import { HiOutlineCog } from "react-icons/hi/index.js";
+import { HiOutlineLogout } from "react-icons/hi/index.js";
+import { IoSend } from "react-icons/io5/index.js";
 import ProfileModal from '../Profile/ProfileModal.jsx';
 import { getAiResponse } from '../../ai/aiService.js';
 import { getUserChatHistory, saveUserChatHistory } from '../../firebase/firestoreService.js'; // Import Firestore functions

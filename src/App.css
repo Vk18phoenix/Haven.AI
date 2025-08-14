@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+
 body {
   margin: 0;
   font-family: 'Google Sans', sans-serif, system-ui;
@@ -8,4 +10,3 @@ body {
   overflow: hidden; /* Prevent scrolling */
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
