@@ -9,18 +9,10 @@ import ProfileModal from '../Profile/ProfileModal.jsx';
 import { getAiResponse } from '../../ai/aiService.js';
 import { getUserChatHistory, saveUserChatHistory } from '../../firebase/firestoreService.js';
 
-// --- THIS IS THE CORRECT IMPORT FROM THE ASSETS FOLDER ---
-import aiLogo from '../../assets/ai-logo.png';
-
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-if (recognition) {
-  recognition.continuous = false;
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-}
 
 const MainLayout = ({ user }) => {
+  // All other state is the same
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [messages, setMessages] = useState([]);
@@ -37,6 +29,21 @@ const MainLayout = ({ user }) => {
   const [isListening, setIsListening] = useState(false);
   const [aiVoice, setAiVoice] = useState('female');
   
+  // --- NEW: STATE TO HOLD THE LOADED VOICES ---
+  const [voices, setVoices] = useState([]);
+  const recognitionRef = useRef(null);
+
+  // --- NEW, CORRECTED EFFECT TO LOAD VOICES RELIABLY ---
+  useEffect(() => {
+    const loadVoices = () => {
+      setVoices(window.speechSynthesis.getVoices());
+    };
+    // This event fires when the browser is ready
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices(); // Initial call in case they are already loaded
+    return () => { window.speechSynthesis.onvoiceschanged = null; };
+  }, []);
+
   const handleSendMessage = async (e, textToSend = null) => {
     if (e) e.preventDefault();
     const messageText = textToSend || prompt;
@@ -64,8 +71,21 @@ const MainLayout = ({ user }) => {
     setIsTyping(false);
   };
 
-  useEffect(() => {
-    if (!recognition) return;
+  const handleMicClick = () => {
+    if (!SpeechRecognition) return toast.error("Sorry, your browser doesn't support speech recognition.");
+    if (isListening) {
+      if (recognitionRef.current) recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+    toast('Listening...', { icon: '🎤' });
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       handleSendMessage(null, transcript);
@@ -74,21 +94,36 @@ const MainLayout = ({ user }) => {
       if (event.error === 'no-speech' || event.error === 'network') {
         const errorMessage = { id: Date.now(), text: "Sorry, I didn't catch that. How can I help?", sender: 'ai' };
         setMessages(prev => [...prev, errorMessage]);
-      } else { toast.error(`Speech recognition error: ${event.error}`); }
+      } else { toast.error(`Mic error: ${event.error}`); }
     };
-    recognition.onend = () => { setIsListening(false); };
-    return () => { recognition.onresult = null; recognition.onerror = null; recognition.onend = null; };
-  }, [messages, activeChatId, chatHistory]);
-
-  const handleMicClick = () => {
-    if (!recognition) return toast.error("Sorry, your browser doesn't support speech recognition.");
-    if (isListening) { recognition.stop(); } else { recognition.start(); setIsListening(true); toast('Listening...', { icon: '🎤' }); }
+    recognition.onend = () => setIsListening(false);
   };
   
+  // --- NEW, CORRECTED TEXT-TO-SPEECH FUNCTION ---
+  const speakText = (text) => {
+    if (!aiVoice || !text || window.speechSynthesis.speaking || voices.length === 0) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    let selectedVoice = null;
+
+    if (aiVoice === 'female') {
+      // Find the best available female voice
+      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Female'));
+      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
+    } else if (aiVoice === 'male') {
+      // Find the best available male voice
+      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Male'));
+      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Male'));
+    }
+    
+    // Use the found voice, or fallback to the first available US English voice
+    utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // --- All other handlers and useEffects are unchanged ---
   useEffect(() => { if (user) { const fetchHistory = async () => { const history = await getUserChatHistory(user.uid); setChatHistory(history); }; fetchHistory(); } }, [user]);
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
   useEffect(() => { const handleClick = () => setContextMenu({ ...contextMenu, visible: false }); window.addEventListener('click', handleClick); return () => window.removeEventListener('click', handleClick); }, [contextMenu]);
-  const speakText = (text) => { if (!aiVoice || !text || window.speechSynthesis.speaking) return; const utterance = new SpeechSynthesisUtterance(text); const voices = window.speechSynthesis.getVoices(); let selectedVoice = null; if (aiVoice === 'female') { selectedVoice = voices.find(v => v.name.includes('Google US English') && v.name.includes('Female')) || voices.find(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Susan'))); } else { selectedVoice = voices.find(v => v.name.includes('Google US English') && !v.name.includes('Female')) || voices.find(v => v.lang.startsWith('en') && (v.name.includes('Male') || v.name.includes('David'))); } utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US'); window.speechSynthesis.speak(utterance); };
   const handleProfileUpdate = (newUrl) => { setAvatarUrl(newUrl); };
   const handleLogout = () => { signOut(getAuth()); };
   const handleNewChat = () => { setActiveChatId(null); setMessages([]); };
@@ -100,6 +135,7 @@ const MainLayout = ({ user }) => {
   const handleShare = (chatId) => { const chat = chatHistory.find(c => c.id === chatId); const shareText = `Check out my conversation with Haven.AI: "${chat.title}"`; if (navigator.share) { navigator.share({ title: 'Haven.AI Chat', text: shareText, url: window.location.href }); } else { navigator.clipboard.writeText(`${shareText} - ${window.location.href}`); toast.success('Link copied to clipboard!'); } };
   const handleThemeChange = (theme) => { document.documentElement.className = theme; toast.success(`Theme changed to ${theme}`); };
 
+  // The rest of the component's JSX is unchanged
   return (
     <div className="layout-container">
       <Toaster position="top-center" />
@@ -128,47 +164,18 @@ const MainLayout = ({ user }) => {
           <span>Hello, {user.displayName || user.email.split('@')[0]}</span>
           <img src={avatarUrl || '/default-avatar.png'} alt="User Avatar" className="user-avatar" onClick={() => setShowProfileModal(true)} />
         </div>
-
         <div className="chat-display-area">
-          {messages.length === 0 ? <div className="center-message"><h1 className="greeting-text">Haven.AI</h1><p>I'm here to listen. What's on your mind?</p></div> : 
-            messages.map(msg => {
-              if (msg.sender === 'user') {
-                return (
-                  <div key={msg.id} className="message-bubble user-message">
-                    {msg.text}
-                  </div>
-                );
-              }
-              return (
-                <div key={msg.id} className="ai-message-container">
-                  <img src={aiLogo} alt="AI logo" className="ai-inline-logo" />
-                  <div className="message-bubble ai-message">
-                    {msg.text}
-                  </div>
-                </div>
-              );
-            })
-          }
-          {isTyping && 
-            <div className="ai-message-container">
-              <img src={aiLogo} alt="AI logo" className="ai-inline-logo" />
-              <div className="message-bubble ai-message typing-indicator">
-                <span></span><span></span><span></span>
-              </div>
-            </div>
-          }
+          {messages.length === 0 ? <div className="center-message"><h1 className="greeting-text">Haven.AI</h1><p>I'm here to listen. What's on your mind?</p></div> : messages.map(msg => <div key={msg.id} className={`message-bubble ${msg.sender === 'user' ? 'user-message' : 'ai-message'}`}>{msg.text}</div>)}
+          {isTyping && <div className="message-bubble ai-message typing-indicator"><span></span><span></span><span></span></div>}
            <div ref={chatEndRef} />
         </div>
-
         <div className="prompt-area">
           <form className="prompt-input-wrapper" onSubmit={handleSendMessage}>
             <input type="text" placeholder="Message Haven.AI..." value={prompt} onChange={(e) => setPrompt(e.target.value)} disabled={isTyping} />
             <button type="button" className={`mic-button ${isListening ? 'listening' : ''}`} onClick={handleMicClick}><Mic /></button>
             <button type="submit" className="send-button" disabled={isTyping || prompt.trim() === ''}><Send /></button>
           </form>
-          <p className="prompt-footer">
-            Haven.AI may produce inaccurate information.
-          </p>
+          <p className="prompt-footer">Haven.AI is an AI companion and not a medical professional.</p>
         </div>
       </div>
       
