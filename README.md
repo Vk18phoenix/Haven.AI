@@ -1,4 +1,4 @@
-# 🌸 Haven.AI — Your Empathetic AI Companion
+# 🌟 Haven.AI — Your Empathetic AI Companion
 
 Haven.AI is a **full-stack, AI-powered emotional companion** that creates a **secure, private, and supportive** space for meaningful conversations.  
 Built with **custom prompt engineering**, it ensures empathetic, validating, and non-judgmental interactions — while keeping user privacy and safety as top priorities.
