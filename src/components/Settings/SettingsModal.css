@@ -1,0 +1,13 @@
+.settings-modal { max-width: 500px; }
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #3d3d3d; }
+.setting-item:last-of-type { border-bottom: none; }
+.setting-item label { font-weight: 500; color: var(--text-primary); }
+.setting-control { display: flex; align-items: center; gap: 8px; }
+.setting-control button { background-color: var(--bg-secondary); border: 1px solid #555; color: var(--text-primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; }
+.setting-control button:hover { background-color: #444; }
+.setting-control button.active { background-color: #8ab4f8; color: #131314; border-color: #8ab4f8; }
+.setting-text { color: #999; margin: 0; }
+.feedback-link { color: #8ab4f8; text-decoration: none; background: none; border: none; font-size: inherit; cursor: pointer; padding: 0; }
+.feedback-link:hover { text-decoration: underline; }
+.location-text { color: #999; margin-right: 8px; }
+.update-location-btn { font-size: 0.8rem; color: #8ab4f8; background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; }

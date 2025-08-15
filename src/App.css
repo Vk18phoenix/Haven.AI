@@ -1,3 +1,19 @@
+/* --- THEME VARIABLES --- */
+:root, :root.dark {
+  --bg-primary: #131314;
+  --bg-secondary: #1e1f20;
+  --text-primary: #e3e3e3;
+  --border-color: transparent;
+  --bg-gradient: linear-gradient(to top, #131314 50%, transparent);
+}
+:root.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f0f0;
+  --text-primary: #1f1f1f;
+  --border-color: #e0e0e0;
+  --bg-gradient: linear-gradient(to top, #ffffff 50%, transparent);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
 body {
@@ -5,8 +21,7 @@ body {
   font-family: 'Google Sans', sans-serif, system-ui;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #131314; /* Dark background from image */
-  color: #e3e3e3; /* Light grey text */
-  overflow: hidden; /* Prevent scrolling */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
-
+html { scrollbar-gutter: stable; }
