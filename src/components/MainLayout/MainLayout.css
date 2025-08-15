@@ -1,4 +1,4 @@
-/* Sidebar is fixed to the screen */
+/* The Sidebar is fixed to the screen */
 .sidebar {
   width: 60px;
   background-color: var(--sidebar-bg); /* THEME APPLIED */
@@ -16,7 +16,7 @@
 }
 .sidebar.open { width: 260px; }
 
-/* Main content is pushed to the right */
+/*The Main content is pushed to the right */
 .main-content {
   margin-left: 60px;
   transition: margin-left 0.3s ease;
@@ -25,7 +25,7 @@
 }
 .sidebar.open ~ .main-content { margin-left: 260px; }
 
-/* Header is fixed to the top */
+/* The Header is fixed to the top */
 .main-header {
   position: fixed;
   top: 0;
@@ -36,7 +36,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 25px;
-  background-color: var(--bg-primary); /* THEME APPLIED */
+  background-color: var(--bg-primary); /* THEME APPLIED COMPLETED*/
   transition: left 0.3s ease;
 }
 .sidebar.open ~ .main-header { left: 260px; }
@@ -44,7 +44,7 @@
 .user-avatar { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
 .user-avatar:hover { border-color: var(--link-color); }
 
-/* --- THEMED SIDEBAR ITEMS --- */
+/* --- THEMED SIDEBAR ITEMS FOR SIDE NAVBAR--- */
 .sidebar-header, .new-chat-button, .footer-item { display: flex; align-items: center; min-width: 240px; cursor: pointer; padding: 10px; border-radius: 8px; }
 .new-chat-button { background-color: var(--sidebar-item-bg); margin-top: 20px; }
 .new-chat-button:hover, .footer-item:hover, .chat-history-item:hover { background-color: var(--hover-bg); }
@@ -59,7 +59,7 @@
 .rename-input { background-color: var(--active-bg); border: 1px solid var(--link-color); border-radius: 8px; color: var(--text-primary); padding: 12px 15px; font-size: 0.9rem; margin: 4px 0; width: calc(100% - 30px); box-sizing: border-box; }
 .pin-icon { margin-right: 5px; color: var(--link-color); }
 
-/* Chat Display Area */
+/* Chat Display Area for to displaying the chats */
 .chat-display-area { width: 100%; max-width: 900px; margin: 0 auto; padding: 20px; padding-bottom: 220px; box-sizing: border-box; display: flex; flex-direction: column; min-height: calc(100vh - 250px); }
 .message-bubble { max-width: 75%; padding: 12px 18px; border-radius: 18px; margin-bottom: 10px; line-height: 1.5; white-space: pre-wrap; }
 .user-message { background-color: var(--link-color); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; }
