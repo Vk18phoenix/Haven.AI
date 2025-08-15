@@ -3,7 +3,7 @@ import { app } from './firebaseConfig.js'; // We need the main app export now
 
 const db = getFirestore(app);
 
-// Function to get all chat history for a user
+// This Function helps to get all chat history for a user
 export const getUserChatHistory = async (userId) => {
   const userDocRef = doc(db, 'userChats', userId);
   try {
@@ -21,7 +21,7 @@ export const getUserChatHistory = async (userId) => {
   }
 };
 
-// Function to save the entire chat history for a user
+// This Function helps to save the entire chat history for a user
 export const saveUserChatHistory = async (userId, conversations) => {
   const userDocRef = doc(db, 'userChats', userId);
   try {
