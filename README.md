@@ -1,74 +1,81 @@
-# 🌟 Haven.AI – Your Empathetic AI Companion
+# 🌟 Haven.AI
 
-Haven.AI is a **full-stack, AI-powered web application** designed to provide a secure, supportive, and emotionally intelligent conversational experience.  
-Built with **React, Firebase, and Google Gemini AI**, Haven.AI blends cutting-edge technology with a human touch — delivering interactions that feel genuinely personal, safe, and caring.
+**Haven.AI** is a **full-stack, AI-powered emotional companion** designed to create a **secure, private, and supportive** space for meaningful conversations.  
+With a strong focus on **positive reinforcement 🤝, active listening 👂, and empathy ❤️**, Haven.AI lets users connect with an AI that truly feels caring.  
 
----
-
-## ✨ Core Features
-
-### 🧠 1. Empathetic AI Conversations  
-Harnesses the **Google Gemini API** with custom prompt engineering to deliver thoughtful, emotionally aware responses that prioritize user well-being.  
-
-![AI Responses](assets/screenshots/ai-responses.png)
+✨ **Key Highlights**  
+- 🔐 **Secure user authentication** powered by Firebase  
+- 💬 **Persistent chat history** tied to individual user accounts  
+- 🖼 **Customizable profiles** with image & emoji avatars  
+- 🤖 **Empathetic AI responses** powered by Google Gemini API  
+- 🎨 **Clean, modern UI** designed for comfort and focus  
 
 ---
 
-### 📜 2. Persistent Chat History  
-A dedicated sidebar allows users to revisit past conversations instantly — keeping their emotional journey intact and accessible.  
+## 🖥 Main UI – A Calm, Supportive Space
+The **main interface** is crafted for a **soothing, distraction-free experience**.  
+Soft colors, generous spacing, and friendly typography make every conversation feel **comfortable and safe**.  
+It’s designed to help users focus on their emotions, without the clutter.
 
-![Sidebar with History Viewing](assets/screenshots/sidebar-history.png)
-
----
-
-### 🖼 3. Customizable Profiles  
-Upload your own profile picture or choose from emoji-based avatars, creating a friendly and personalized space.  
-
-![User Profile DP](assets/screenshots/user-profile-dp.png)
+![Haven UI](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/Haven-UI.png)
 
 ---
 
-### 🔐 4. Secure Authentication  
-Seamless **signup and login** via Firebase Authentication ensures a secure and private experience for every user.  
+## 📂 Sidebar with Chat History
+The **sidebar** gives users instant access to their **conversation history**.  
+Each past interaction is securely stored, letting them **reflect, revisit, or continue** conversations whenever they like.  
+It’s more than just a log—it’s a **timeline of personal growth**.
 
-![Signup cum Login Page](assets/screenshots/signup-login.png)
-
----
-
-### 💬 5. Modern, Responsive UI  
-A clean, distraction-free interface designed for maximum comfort, accessibility, and elegance across devices.  
-
-![Haven UI Page](assets/screenshots/haven-ui.png)
+![Sidebar History](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/Sidebar-history.png)
 
 ---
 
-## 🛠 Technology Stack
-- **Frontend:** React (Vite), Tailwind CSS, React Icons  
-- **Backend & Cloud:** Firebase Authentication, Firestore Database, Firebase Storage  
-- **AI Engine:** Google Gemini API  
-- **Deployment:** Vercel  
+## 🔐 Secure Signup & Login
+Onboarding is quick and **privacy-focused**.  
+With **Firebase Authentication**, users can trust that their conversations stay **confidential and protected**.  
+This simple yet strong login process removes friction while keeping security front and center.
+
+![Signup Login](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/Signup-Login.png)
 
 ---
 
-## 🚀 Live Demo
-🔗 **[Try Haven.AI](https://your-vercel-link.vercel.app)**
+## 🖼 Personal Profiles with DP Upload
+Users can **upload profile pictures** or choose **emoji avatars** to personalize their AI companion.  
+This touch of individuality makes the interaction feel **warmer and more human**, turning Haven.AI into **their own safe haven**.
+
+![User Profile DP](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/User-profile-DP.png)
 
 ---
 
-## ⚙️ Local Setup
+## 🤖 AI Responses that Listen & Care
+Powered by **Google Gemini API** and fine-tuned with **custom prompt engineering**, Haven.AI responds with **empathy, warmth, and understanding**.  
+No robotic tones—just thoughtful, compassionate replies that feel personal.
+
+![AI Responses](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/AI-responses.png)
+
+---
+
+## 🛠 Tech Stack
+| Layer       | Technology |
+|-------------|------------|
+| **Frontend** | React + Vite ⚡ |
+| **Backend** | Firebase Authentication 🔐 + Firestore 📂 |
+| **AI Engine** | Google Gemini API 🤖 |
+| **Hosting** | Vercel 🚀 |
+
+---
+# Live project
+echo "🌐 Haven.AI Live: [Vercel](https://haven-ai-lopp.vercel.app/)"
+## 🚀 Getting Started
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/Haven.AI.git
+git clone https://github.com/Vk18phoenix/Haven.AI.git
 
-# Navigate into the project folder
+# Navigate to the project folder
 cd Haven.AI
 
 # Install dependencies
 npm install
 
-# Create your environment file
-touch .env.local
-# Add Firebase and Gemini API keys inside .env.local
-
-# Run the development server
+# Start development server
 npm run dev
