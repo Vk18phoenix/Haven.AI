@@ -29,7 +29,7 @@ const FeedbackModal = ({ user, onClose }) => {
 
     let imageUrl = "No image attached.";
 
-    // --- NEW: UPLOAD IMAGE TO FIREBASE STORAGE ---
+    // --- NEW: THIS WILL UPLOAD IMAGE TO FIREBASE STORAGE ---
     if (file) {
       toast.loading('Compressing & uploading image...', { id: toastId });
       
@@ -50,7 +50,7 @@ const FeedbackModal = ({ user, onClose }) => {
       }
     }
     
-    // --- SEND EMAIL WITH IMAGE URL ---
+    // --- SEND FEEDBACK EMAIL WITH IMAGE URL ---
     toast.loading('Sending feedback...', { id: toastId });
     const templateParams = {
       feedback_message: feedback,
