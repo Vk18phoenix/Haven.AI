@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import './MainLayout.css';
-import { HiMenu, HiOutlinePlus, HiOutlineCog, HiOutlineLogout } from 'react-icons/hi';
-import { IoSend } from "react-icons/io5";
+// --- NEW, RELIABLE ICON IMPORTS ---
+import { Menu, Plus, Cog, LogOut, Send } from 'lucide-react'; 
 import ProfileModal from '../Profile/ProfileModal.jsx';
 import { getAiResponse } from '../../ai/aiService.js';
-import { getUserChatHistory, saveUserChatHistory } from '../../firebase/firestoreService.js'; // Import Firestore functions
+import { getUserChatHistory, saveUserChatHistory } from '../../firebase/firestoreService.js';
 
 const MainLayout = ({ user }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  
-  // -- STATE MANAGEMENT --
   const [prompt, setPrompt] = useState('');
-  const [messages, setMessages] = useState([]); // Current conversation's messages
-  const [chatHistory, setChatHistory] = useState([]); // List of all conversations for the sidebar
-  const [activeChatId, setActiveChatId] = useState(null); // ID of the currently active chat
+  const [messages, setMessages] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
+  const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
 
-  // -- EFFECTS --
-  // Fetch chat history when the component loads
   useEffect(() => {
     if (user) {
       const fetchHistory = async () => {
@@ -31,20 +28,21 @@ const MainLayout = ({ user }) => {
     }
   }, [user]);
 
-  // Scroll to bottom when new messages appear
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  const handleProfileUpdate = (newUrl) => {
+    setAvatarUrl(newUrl);
+  };
 
-  // -- HANDLER FUNCTIONS --
   const handleLogout = () => { signOut(getAuth()); };
 
   const handleNewChat = () => {
     setActiveChatId(null);
     setMessages([]);
   };
-
+  
   const handleSelectChat = (chatId) => {
     const selectedChat = chatHistory.find(chat => chat.id === chatId);
     if (selectedChat) {
@@ -56,19 +54,14 @@ const MainLayout = ({ user }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (prompt.trim() === '' || isTyping) return;
-
     const userMessage = { id: Date.now(), text: prompt, sender: 'user' };
     const currentMessages = [...messages, userMessage];
     setMessages(currentMessages);
     setIsTyping(true);
     setPrompt('');
-
-    // --- HISTORY SAVING LOGIC ---
     let currentChatId = activeChatId;
     let updatedHistory = [...chatHistory];
-
     if (currentChatId === null) {
-      // This is a new chat, create it.
       currentChatId = Date.now().toString();
       setActiveChatId(currentChatId);
       const newChat = {
@@ -78,31 +71,23 @@ const MainLayout = ({ user }) => {
       };
       updatedHistory = [newChat, ...chatHistory];
     } else {
-      // This is an existing chat, update it.
       updatedHistory = chatHistory.map(chat => 
         chat.id === currentChatId ? { ...chat, messages: currentMessages } : chat
       );
     }
     setChatHistory(updatedHistory);
-    
-    // --- AI RESPONSE ---
     const aiResponseText = await getAiResponse(prompt, messages);
     const aiMessage = { id: Date.now() + 1, text: aiResponseText, sender: 'ai' };
-    
     const finalMessages = [...currentMessages, aiMessage];
     setMessages(finalMessages);
-    
-    // --- FINAL SAVE TO FIRESTORE ---
     const finalHistory = updatedHistory.map(chat => 
       chat.id === currentChatId ? { ...chat, messages: finalMessages } : chat
     );
     setChatHistory(finalHistory);
     await saveUserChatHistory(user.uid, finalHistory);
-
     setIsTyping(false);
   };
   
-  // -- RENDER --
   return (
     <div className="layout-container">
       <div 
@@ -111,11 +96,13 @@ const MainLayout = ({ user }) => {
         onMouseLeave={() => setSidebarOpen(false)}
       >
         <div className="sidebar-header">
-          <HiMenu className="menu-icon" />
-          <span className="sidebar-title">Haven Buddy</span>
+          {/* --- NEW ICON COMPONENT --- */}
+          <Menu className="menu-icon" />
+          <span className="sidebar-title">Haven.AI</span>
         </div>
         <div className="new-chat-button" onClick={handleNewChat}>
-          <HiOutlinePlus size={20} />
+          {/* --- NEW ICON COMPONENT --- */}
+          <Plus size={20} />
           <span>New Chat</span>
         </div>
         <div className="sidebar-content">
@@ -131,19 +118,24 @@ const MainLayout = ({ user }) => {
           ))}
         </div>
         <div className="sidebar-footer">
+           <div className="footer-item">
+            {/* --- NEW ICON COMPONENT --- */}
+            <Cog size={20} />
+            <span>Settings</span>
+          </div>
           <div className="footer-item" onClick={handleLogout}>
-            <HiOutlineLogout size={20} />
+            {/* --- NEW ICON COMPONENT --- */}
+            <LogOut size={20} />
             <span>Logout</span>
           </div>
         </div>
       </div>
 
       <div className="main-content">
-        {/* Header and other components remain the same */}
         <div className="main-header">
           <span>Hello, {user.displayName || user.email.split('@')[0]}</span>
           <img 
-            src={user.photoURL || '/default-avatar.png'} 
+            src={avatarUrl || '/default-avatar.png'} 
             alt="User Avatar" 
             className="user-avatar"
             onClick={() => setShowProfileModal(true)}
@@ -153,7 +145,7 @@ const MainLayout = ({ user }) => {
         <div className="chat-display-area">
           {messages.length === 0 ? (
             <div className="center-message">
-              <h1 className="greeting-text">Haven Buddy</h1>
+              <h1 className="greeting-text">Haven.AI</h1>
               <p>I'm here to listen. What's on your mind?</p>
             </div>
           ) : (
@@ -175,21 +167,24 @@ const MainLayout = ({ user }) => {
           <form className="prompt-input-wrapper" onSubmit={handleSendMessage}>
             <input 
               type="text" 
-              placeholder="Message Haven Buddy..." 
+              placeholder="Message Haven.AI..." 
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               disabled={isTyping}
             />
-            <button type="submit" className="send-button" disabled={isTyping}><IoSend /></button>
+            <button type="submit" className="send-button" disabled={isTyping}>
+                {/* --- NEW ICON COMPONENT --- */}
+                <Send />
+            </button>
           </form>
           <p className="prompt-footer">
-            Haven Buddy is an AI companion and not a medical professional.
+            Haven.AI is an AI companion and not a medical professional.
           </p>
         </div>
       </div>
       
       {showProfileModal && (
-        <ProfileModal user={user} onClose={() => setShowProfileModal(false)} />
+        <ProfileModal user={user} onUpdate={handleProfileUpdate} onClose={() => setShowProfileModal(false)} />
       )}
     </div>
   );
