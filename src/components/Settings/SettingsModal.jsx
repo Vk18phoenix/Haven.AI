@@ -35,7 +35,7 @@ const SettingsModal = ({ onClose, onThemeChange, onVoiceChange, currentVoice, on
           </div>
         </div>
 
-        {/* --- THIS IS THE NEW VOICE ASSISTANT SECTION --- */}
+        {/* --- THIS IS THE NEW VOICE ASSISTANT SECTION FOR TO WORK VOICE ASSISTANT PERFECTLY --- */}
         <div className="setting-item">
           <label>Voice Assistant</label>
           <div className="setting-control">
