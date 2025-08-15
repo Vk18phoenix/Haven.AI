@@ -12,7 +12,7 @@ import { getUserChatHistory, saveUserChatHistory } from '../../firebase/firestor
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 const MainLayout = ({ user }) => {
-  // All other state is the same
+  // All are same only 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [messages, setMessages] = useState([]);
@@ -29,11 +29,11 @@ const MainLayout = ({ user }) => {
   const [isListening, setIsListening] = useState(false);
   const [aiVoice, setAiVoice] = useState('female');
   
-  // --- NEW: STATE TO HOLD THE LOADED VOICES ---
+  // --- NEW: THIS STATE HELPS TO HOLD THE LOADED VOICES ---
   const [voices, setVoices] = useState([]);
   const recognitionRef = useRef(null);
 
-  // --- NEW, CORRECTED EFFECT TO LOAD VOICES RELIABLY ---
+  // --- NEW, WITH THE CORRECTED EFFECT TO LOAD VOICES RELIABLY, WITHOUT ERRORS---
   useEffect(() => {
     const loadVoices = () => {
       setVoices(window.speechSynthesis.getVoices());
@@ -99,23 +99,23 @@ const MainLayout = ({ user }) => {
     recognition.onend = () => setIsListening(false);
   };
   
-  // --- NEW, CORRECTED TEXT-TO-SPEECH FUNCTION ---
+  // --- NEW, CORRECTED TEXT-TO-SPEECH FUNCTION SO THE SPPEAKING WILL BE CONVERTED TO TEXT TO THE AI ---
   const speakText = (text) => {
     if (!aiVoice || !text || window.speechSynthesis.speaking || voices.length === 0) return;
     const utterance = new SpeechSynthesisUtterance(text);
     let selectedVoice = null;
 
     if (aiVoice === 'female') {
-      // Find the best available female voice
+      //We can find the best available female voice
       selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Female'));
       if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
     } else if (aiVoice === 'male') {
-      // Find the best available male voice
+      // We can find the best available male voice
       selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Male'));
       if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Male'));
     }
     
-    // Use the found voice, or fallback to the first available US English voice
+    // Use the found voice, if not fallback to the first available US English voice
     utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
     window.speechSynthesis.speak(utterance);
   };
