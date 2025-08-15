@@ -1,29 +1,49 @@
-/* Sidebar is fixed to the screen and taken out of the page's normal flow */
+/* Sidebar is fixed to the screen */
 .sidebar { width: 60px; background-color: #1e1f20; height: 100vh; position: fixed; left: 0; top: 0; z-index: 1000; transition: width 0.3s ease; overflow-x: hidden; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; }
 .sidebar.open { width: 260px; }
-/* Main content is a simple block that gets pushed over by the sidebar */
-.main-content { margin-left: 60px; transition: margin-left 0.3s ease; width: auto; padding-top: 68px; }
+
+/* Main content is pushed to the right to make space for the sidebar */
+.main-content {
+  margin-left: 60px;
+  transition: margin-left 0.3s ease;
+  width: auto;
+  /* VERY IMPORTANT: Add padding to the top to prevent content from hiding under the new sticky header */
+  padding-top: 68px;
+}
 .sidebar.open ~ .main-content { margin-left: 260px; }
-/* The header is fixed to the top of the viewport */
-.main-header { position: fixed; top: 0; left: 60px; right: 0; z-index: 900; display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; background-color: var(--bg-primary); transition: left 0.3s ease; }
-.sidebar.open ~ .main-header { left: 260px; }
+
+/* --- THIS IS THE HEADER FIX --- */
+/* The header is now fixed to the top of the viewport, just like the sidebar */
+.main-header {
+  position: fixed;
+  top: 0;
+  /* These values MUST match the margin-left of .main-content to align perfectly */
+  left: 60px;
+  right: 0; /* Stretches the header to the right edge */
+  z-index: 900; /* Sits below the sidebar but above everything else */
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 25px;
+  
+  /* IMPORTANT: Give it a background so scrolling content doesn't show through */
+  background-color: var(--bg-primary); 
+  transition: left 0.3s ease; /* Ensures it animates with the sidebar */
+}
+.sidebar.open ~ .main-header {
+  left: 260px;
+}
+
+/* --- All other styles below --- */
 .user-avatar { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
 .user-avatar:hover { border-color: #8ab4f8; }
-.sidebar-header, .new-chat-button, .footer-item { display: flex; align-items: center; min-width: 240px; cursor: pointer; padding: 10px; border-radius: 8px; }
-.new-chat-button { background-color: #333; margin-top: 20px; }
-.new-chat-button:hover, .footer-item:hover, .chat-history-item:hover { background-color: #2a2b2c; }
-.menu-icon { font-size: 24px; margin-right: 15px; }
-.sidebar-title, .new-chat-button span, .footer-item span { margin-left: 15px; opacity: 0; transition: opacity 0.3s ease; }
-.sidebar.open .sidebar-title, .sidebar.open .new-chat-button span, .sidebar.open .footer-item span { opacity: 1; }
-.sidebar-content { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
-.recent-title { padding: 10px; font-weight: 500; color: #999; }
-.sidebar-footer { margin-top: auto; }
-.chat-history-item { display: flex; align-items: center; padding: 12px 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: 8px; cursor: pointer; font-size: 0.9rem; margin: 4px 0; transition: background-color 0.2s; }
-.chat-history-item.active { background-color: #3e4042; font-weight: bold; }
-.chat-display-area { width: 100%; max-width: 900px; margin: 0 auto; padding: 20px; padding-bottom: 220px; box-sizing: border-box; display: flex; flex-direction: column; min-height: calc(100vh - 250px); }
-.message-bubble { max-width: 75%; padding: 12px 18px; border-radius: 18px; margin-bottom: 10px; line-height: 1.5; white-space: pre-wrap; }
-.user-message { background-color: #8ab4f8; color: #131314; align-self: flex-end; border-bottom-right-radius: 4px; }
-.ai-message { background-color: var(--bg-secondary); color: var(--text-primary); align-self: flex-start; border-bottom-left-radius: 4px; }
+.chat-display-area { width: 100%; max-width: 900px; margin: 0 auto; padding: 20px; padding-bottom: 220px; box-sizing: border-box; display: flex; flex-direction: column; min-height: calc(100vh - 100px); }
+.message-bubble { max-width: 100%; }
+.user-message { background-color: #8ab4f8; color: #131314; align-self: flex-end; border-radius: 18px; border-bottom-right-radius: 4px; margin-bottom: 10px; padding: 12px 18px; max-width: 75%; line-height: 1.5; white-space: pre-wrap; }
+.ai-message-container { display: flex; align-items: flex-start; gap: 15px; align-self: flex-start; max-width: 75%; margin-bottom: 10px; }
+.ai-inline-logo { width: 24px; height: 24px; flex-shrink: 0; margin-top: 5px; }
+.ai-message { background-color: var(--bg-secondary); color: var(--text-primary); border-radius: 18px; border-bottom-left-radius: 4px; padding: 12px 18px; line-height: 1.5; white-space: pre-wrap; }
 .center-message { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 .greeting-text { font-size: 3.5rem; font-weight: 500; background: -webkit-linear-gradient(45deg, #8ab4f8, #c1a4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .center-message p { color: #999; font-size: 1.2rem; }
@@ -47,3 +67,12 @@
 .mic-button { position: absolute; right: 70px; background: none; border: none; color: #999; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: color 0.2s; }
 .mic-button:hover { color: #e3e3e3; }
 .mic-button.listening { color: #ff5c5c; }
+.sidebar-header, .new-chat-button, .footer-item { display: flex; align-items: center; min-width: 240px; cursor: pointer; padding: 10px; border-radius: 8px; }
+.new-chat-button { background-color: #333; margin-top: 20px; }
+.new-chat-button:hover, .footer-item:hover, .chat-history-item:hover { background-color: #2a2b2c; }
+.menu-icon { font-size: 24px; margin-right: 15px; }
+.sidebar-title, .new-chat-button span, .footer-item span { margin-left: 15px; opacity: 0; transition: opacity 0.3s ease; }
+.sidebar.open .sidebar-title, .sidebar.open .new-chat-button span, .sidebar.open .footer-item span { opacity: 1; }
+.sidebar-content { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
+.recent-title { padding: 10px; font-weight: 500; color: #999; }
+.sidebar-footer { margin-top: auto; }
