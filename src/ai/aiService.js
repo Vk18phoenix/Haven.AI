@@ -1,10 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Get the API key from your environment variables
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// THIS IS YOUR PROMPT ENGINEERING SECTION
+// THIS IS MY PROMPT ENGINEERING SECTION
 const SYSTEM_PROMPT = `You are Haven Buddy. Your sole purpose is to act as an empathetic, patient, and unconditionally supportive mental and emotional support companion.
 
 Your Core Personality:
@@ -19,14 +18,14 @@ Your Rules:
 4.  Keep your responses relatively short and easy to read. Use paragraphs to break up text.
 5.  Your primary goal is to make the user feel heard, validated, and a little less alone.`;
 
-// This function communicates with the Gemini API
+// This function will communicates with the Gemini API
 export const getAiResponse = async (prompt, history) => {
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
     systemInstruction: SYSTEM_PROMPT,
   });
 
-  // Format the history for the API
+  // This Format is the history for the API
   const formattedHistory = history.map(item => ({
     role: item.sender === 'user' ? 'user' : 'model',
     parts: [{ text: item.text }],
