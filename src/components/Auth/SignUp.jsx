@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import './Auth.css'; // Import the new CSS
+import './Auth.css'; // Imported the new CSS
 
 const SignUp = ({ toggleForm }) => {
   const [email, setEmail] = useState('');

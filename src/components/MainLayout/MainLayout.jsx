@@ -18,6 +18,7 @@ import favicon from '/src/assets/favicon.png';
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const BANNED_KEYWORDS = ['kill', 'suicide', 'bomb', 'terrorist', 'hate speech'];
 
+<<<<<<< HEAD
 const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -133,6 +134,34 @@ const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
         }
 
         setIsTyping(false);
+=======
+const MainLayout = ({ user }) => {
+  // All are same only 
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [prompt, setPrompt] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const chatEndRef = useRef(null);
+  const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, chatId: null });
+  const [renamingChatId, setRenamingChatId] = useState(null);
+  const [isListening, setIsListening] = useState(false);
+  const [aiVoice, setAiVoice] = useState('female');
+  
+  // --- NEW: THIS STATE HELPS TO HOLD THE LOADED VOICES ---
+  const [voices, setVoices] = useState([]);
+  const recognitionRef = useRef(null);
+
+  // --- NEW, WITH THE CORRECTED EFFECT TO LOAD VOICES RELIABLY, WITHOUT ERRORS---
+  useEffect(() => {
+    const loadVoices = () => {
+      setVoices(window.speechSynthesis.getVoices());
+>>>>>>> f9ac9db1c2bf80042bf1ddbdee7a1280a814b80a
     };
 
     const handleMicClick = () => {
@@ -180,8 +209,34 @@ const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
         utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
         window.speechSynthesis.speak(utterance);
     };
+<<<<<<< HEAD
 
     const handleProfileUpdate = (newUrl) => { setAvatarUrl(newUrl); };
+=======
+    recognition.onend = () => setIsListening(false);
+  };
+  
+  // --- NEW, CORRECTED TEXT-TO-SPEECH FUNCTION SO THE SPPEAKING WILL BE CONVERTED TO TEXT TO THE AI ---
+  const speakText = (text) => {
+    if (!aiVoice || !text || window.speechSynthesis.speaking || voices.length === 0) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    let selectedVoice = null;
+
+    if (aiVoice === 'female') {
+      //We can find the best available female voice
+      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Female'));
+      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
+    } else if (aiVoice === 'male') {
+      // We can find the best available male voice
+      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Male'));
+      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Male'));
+    }
+    
+    // Use the found voice, if not fallback to the first available US English voice
+    utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
+    window.speechSynthesis.speak(utterance);
+  };
+>>>>>>> f9ac9db1c2bf80042bf1ddbdee7a1280a814b80a
 
     const handleLogout = () => {
         signOut(getAuth());

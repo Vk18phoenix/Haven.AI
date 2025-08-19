@@ -10,7 +10,7 @@ const ProfileModal = ({ user, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState('Upload a new image or choose an emoji.');
 
-  // --- NEW UNIFIED UPLOAD FUNCTION ---
+  // --- NEW UNIFIED UPLOAD FUNCTION FOR DP UPLOADING ---
   const uploadProfilePicture = async (fileToUpload) => {
     if (!fileToUpload) return;
     setLoading(true);
@@ -63,7 +63,7 @@ const ProfileModal = ({ user, onClose }) => {
     }
   };
 
-  // --- UPDATED to generate an image from the emoji ---
+  // --- UPDATED to generate an image from the emoji FOR DP ---
   const handleEmojiSelect = async (emoji) => {
     setFeedback('Generating emoji picture...');
     setLoading(true);
