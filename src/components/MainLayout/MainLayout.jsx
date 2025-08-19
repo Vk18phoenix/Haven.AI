@@ -18,7 +18,6 @@ import favicon from '/src/assets/favicon.png';
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const BANNED_KEYWORDS = ['kill', 'suicide', 'bomb', 'terrorist', 'hate speech'];
 
-<<<<<<< HEAD
 const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -134,7 +133,6 @@ const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
         }
 
         setIsTyping(false);
-=======
 const MainLayout = ({ user }) => {
   // All are same only 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -161,7 +159,6 @@ const MainLayout = ({ user }) => {
   useEffect(() => {
     const loadVoices = () => {
       setVoices(window.speechSynthesis.getVoices());
->>>>>>> f9ac9db1c2bf80042bf1ddbdee7a1280a814b80a
     };
 
     const handleMicClick = () => {
@@ -209,10 +206,8 @@ const MainLayout = ({ user }) => {
         utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
         window.speechSynthesis.speak(utterance);
     };
-<<<<<<< HEAD
 
     const handleProfileUpdate = (newUrl) => { setAvatarUrl(newUrl); };
-=======
     recognition.onend = () => setIsListening(false);
   };
   
@@ -236,7 +231,6 @@ const MainLayout = ({ user }) => {
     utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
     window.speechSynthesis.speak(utterance);
   };
->>>>>>> f9ac9db1c2bf80042bf1ddbdee7a1280a814b80a
 
     const handleLogout = () => {
         signOut(getAuth());
