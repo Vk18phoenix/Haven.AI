@@ -13,7 +13,7 @@ import PaywallModal from '../Paywall/PaywallModal.jsx';
 import { getAiResponse } from '../../ai/aiService.js';
 import { getUserChatHistory, saveUserChatHistory, saveTempChat, reportMessage } from '../../firebase/firestoreService.js';
 import aiLogo from '../../assets/ai-logo.png';
-import favicon from '/src/assets/favicon.png';
+import favicon from '../../assets/favicon.png'; // Corrected import path
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const BANNED_KEYWORDS = ['kill', 'suicide', 'bomb', 'terrorist', 'hate speech'];
@@ -38,7 +38,6 @@ const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
     const [voices, setVoices] = useState([]);
     const recognitionRef = useRef(null);
     const promptInputRef = useRef(null);
-
     const [guestLocked, setGuestLocked] = useState(false);
     const [showGuestMessage, setShowGuestMessage] = useState(false);
 
@@ -131,34 +130,7 @@ const MainLayout = ({ user, openAuthModal, theme, onThemeChange }) => {
         } else {
             await saveTempChat(finalMessages);
         }
-
         setIsTyping(false);
-const MainLayout = ({ user }) => {
-  // All are same only 
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [prompt, setPrompt] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [chatHistory, setChatHistory] = useState([]);
-  const [activeChatId, setActiveChatId] = useState(null);
-  const [isTyping, setIsTyping] = useState(false);
-  const chatEndRef = useRef(null);
-  const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
-  const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, chatId: null });
-  const [renamingChatId, setRenamingChatId] = useState(null);
-  const [isListening, setIsListening] = useState(false);
-  const [aiVoice, setAiVoice] = useState('female');
-  
-  // --- NEW: THIS STATE HELPS TO HOLD THE LOADED VOICES ---
-  const [voices, setVoices] = useState([]);
-  const recognitionRef = useRef(null);
-
-  // --- NEW, WITH THE CORRECTED EFFECT TO LOAD VOICES RELIABLY, WITHOUT ERRORS---
-  useEffect(() => {
-    const loadVoices = () => {
-      setVoices(window.speechSynthesis.getVoices());
     };
 
     const handleMicClick = () => {
@@ -208,29 +180,6 @@ const MainLayout = ({ user }) => {
     };
 
     const handleProfileUpdate = (newUrl) => { setAvatarUrl(newUrl); };
-    recognition.onend = () => setIsListening(false);
-  };
-  
-  // --- NEW, CORRECTED TEXT-TO-SPEECH FUNCTION SO THE SPPEAKING WILL BE CONVERTED TO TEXT TO THE AI ---
-  const speakText = (text) => {
-    if (!aiVoice || !text || window.speechSynthesis.speaking || voices.length === 0) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    let selectedVoice = null;
-
-    if (aiVoice === 'female') {
-      //We can find the best available female voice
-      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Female'));
-      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
-    } else if (aiVoice === 'male') {
-      // We can find the best available male voice
-      selectedVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Male'));
-      if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Male'));
-    }
-    
-    // Use the found voice, if not fallback to the first available US English voice
-    utterance.voice = selectedVoice || voices.find(v => v.lang === 'en-US');
-    window.speechSynthesis.speak(utterance);
-  };
 
     const handleLogout = () => {
         signOut(getAuth());
@@ -351,7 +300,7 @@ const MainLayout = ({ user }) => {
                                 renamingChatId === chat.id ? (
                                     <input key={chat.id} type="text" defaultValue={chat.title} className="rename-input" autoFocus onBlur={(e) => handleRename(chat.id, e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleRename(chat.id, e.target.value); }} />
                                 ) : (
-                                    <div key={chat.id} className={`chat-history-item ${chat.id === activeChatId ? 'active' : ''}`} onClick={() => handleSelectChat(chat.id)}>
+                                    <div key={chat.id} className={`chat-history-item ${chat.id === activeChatId ? '' : ''}`} onClick={() => handleSelectChat(chat.id)}>
                                         <div className="chat-title-wrapper">
                                             {chat.pinned && <Pin size={14} className="pin-icon" />}
                                             <span className="chat-title">{chat.title}</span>
@@ -389,12 +338,10 @@ const MainLayout = ({ user }) => {
                 <div className="main-header">
                     {user ? (
                         <>
-                            {/* New Haven.AI logo and clickable text */}
                             <div className="header-left" onClick={handleNewChat}>
                                 <img src={favicon} alt="Haven.AI Logo" className="header-logo" />
                                 <span className="logo-text">Haven.AI</span>
                             </div>
-                            {/* Updated Greeting (was part of header-left) */}
                             <img src={avatarUrl || '/default-avatar.png'} alt="User Avatar" className="user-avatar" onClick={() => setShowProfileModal(true)} />
                         </>
                     ) : (

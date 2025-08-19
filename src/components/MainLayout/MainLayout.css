@@ -16,15 +16,11 @@
   --aurora-color-3: rgba(255, 50, 200, 0.1);
   --selection-background-color: #3b4249;
   --selection-border-color: var(--primary-color);
-
-  /* New variables needed for a complete layout */
   --chat-background: rgba(255, 255, 255, 0.05);
   --user-message-background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   --ai-message-background: rgba(255, 255, 255, 0.05);
   --user-message-text: #f0f4f8;
   --ai-message-text: #f0f4f8;
-  
-  /* Additional variables for light theme */
   --header-bg: transparent;
   --header-color: var(--text-color);
 }
@@ -46,8 +42,6 @@ body.light-theme {
   --aurora-color-3: rgba(255, 255, 0, 0.1);
   --selection-background-color: #d0e0f0;
   --selection-border-color: #3b82f6;
-  
-  /* Light theme message variables */
   --chat-background: #f0f4f8;
   --user-message-background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   --ai-message-background: #ffffff;
@@ -146,7 +140,6 @@ body.light-theme {
 
 .sidebar.open .sidebar-header .menu-icon {
   margin-right: 15px;
-  /* Resets the rotation when open */
   transform: rotate(0deg);
 }
 .sidebar-header .sidebar-title {
