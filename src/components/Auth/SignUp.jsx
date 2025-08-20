@@ -1,72 +1,58 @@
+// components/Auth/Signup.jsx
+
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import './Auth.css'; // Imported the new CSS
+import { Mail, Lock, User } from 'lucide-react';
 
-const SignUp = ({ toggleForm }) => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!displayName) {
-        setError("Display name is required.");
-        return;
-    }
+    setError('');
+    if (!displayName) { setError("Display name is required."); return; }
+    setLoading(true);
     const auth = getAuth();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCredential.user, {
-        displayName: displayName
-      });
-      // No need to do anything else, the onAuthStateChanged in App.jsx will handle the redirect
-    } catch (error) {
-      setError(error.message);
+      await updateProfile(userCredential.user, { displayName });
+    } catch (error) { 
+      // The error handling is corrected to display a user-friendly message.
+      setError(error.message.replace('Firebase: ', '').replace(/\(auth.*\)\.?/, ''));
     }
+    setLoading(false);
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form-wrapper">
-        <form onSubmit={handleSignUp}>
-          <h2>Create Your Account</h2>
-          <div className="input-group">
-            <input 
-              type="text" 
-              value={displayName} 
-              onChange={(e) => setDisplayName(e.target.value)} 
-              placeholder="Display Name" 
-              required 
-            />
-          </div>
-          <div className="input-group">
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              placeholder="Email" 
-              required 
-            />
-          </div>
-          <div className="input-group">
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              placeholder="Password" 
-              required 
-            />
-          </div>
-          <button type="submit" className="auth-button">Sign Up</button>
-          {error && <p className="auth-error">{error}</p>}
-        </form>
-        <p className="toggle-form-text">
-          Already have an account? <span onClick={toggleForm}>Login</span>
-        </p>
+    <div className="auth-card-inner">
+      <div className="auth-header">
+        <h1 className="auth-title">Create Account</h1>
+        <p className="auth-tagline">Start your journey with Haven.AI.</p>
       </div>
+      <form onSubmit={handleSignUp} className="auth-form">
+        <div className="input-group">
+          <User className="input-icon" size={20} />
+          <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Display Name" required />
+        </div>
+        <div className="input-group">
+          <Mail className="input-icon" size={20} />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+        </div>
+        <div className="input-group">
+          <Lock className="input-icon" size={20} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        </div>
+        <button type="submit" className="auth-button" disabled={loading}>
+          {loading ? 'Creating...' : 'Sign Up'}
+        </button>
+        {error && <p className="auth-error">{error}</p>}
+      </form>
     </div>
   );
 };
 
-export default SignUp;
+export default Signup;

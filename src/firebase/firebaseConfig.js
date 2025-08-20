@@ -1,9 +1,12 @@
+// src/firebase/firebaseConfig.js
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration using environment variables
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
@@ -11,13 +14,10 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 };
 
-// --- This is the key section ---
+// Initialize Firebase and export the 'app' object
+// This is the line that needs to be changed.
+export const app = initializeApp(firebaseConfig);
 
-// 1. Initialize Firebase ONCE and store it in the 'app' constant.
-const app = initializeApp(firebaseConfig);
-
-// 2. Initialize the Auth service using the 'app' constant.
-const auth = getAuth(app);
-
-// 3. Export both 'auth' and 'app' so other files can use them.
-export { auth, app };
+// You can also export other services directly
+export const auth = getAuth(app);
+export const db = getFirestore(app);

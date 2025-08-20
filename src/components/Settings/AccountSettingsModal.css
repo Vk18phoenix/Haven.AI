@@ -1,0 +1,38 @@
+.account-settings-modal {
+  max-width: 550px;
+}
+.account-section { padding: 20px 0; border-bottom: 1px solid var(--border-color); }
+.account-section:last-of-type { border-bottom: none; }
+.account-section h4 { margin-top: 0; margin-bottom: 15px; color: var(--text-color); }
+.account-section p { color: var(--secondary-text-color); margin: 5px 0; }
+.account-section form { display: flex; flex-direction: column; gap: 10px; }
+.account-section input {
+  padding: 10px;
+  background-color: var(--sidebar-background);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 6px;
+}
+.action-button {
+  background: var(--user-message-background);
+  color: var(--user-message-text);
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.danger-zone { border-color: #ff5c5c; }
+.danger-zone h4 { color: #ff8a8a; }
+.danger-button {
+  background-color: #4a2d2d;
+  color: #ff8a8a;
+  border: 1px solid #ff5c5c;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+.danger-button:disabled { opacity: 0.5; cursor: not-allowed; }

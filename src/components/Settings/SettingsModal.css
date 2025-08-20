@@ -1,38 +1,38 @@
 .settings-modal {
   max-width: 500px;
-  background-color: var(--bg-primary); /* THEME APPLIED */
-  border: 1px solid var(--border-color); /* THEME APPLIED */
 }
-
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 1px solid var(--bg-secondary); /* THEME APPLIED */
+  border-bottom: 1px solid var(--border-color);
 }
 .setting-item:last-of-type { border-bottom: none; }
-.setting-item label { font-weight: 500; color: var(--text-primary); }
+.setting-item label { font-weight: 500; color: var(--text-color); }
 .setting-control { display: flex; align-items: center; gap: 8px; }
 
 .setting-control button {
-  background-color: var(--bg-secondary);
+  background-color: var(--sidebar-background);
   border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  color: var(--text-color);
   padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.setting-control button:hover { background-color: var(--hover-bg); }
+.setting-control button:hover { background-color: var(--selection-background-color); }
+
 .setting-control button.active {
-  background-color: var(--link-color);
-  color: #ffffff; /* White text looks best on the link color */
-  border-color: var(--link-color);
+  background-color: var(--primary-color);
+  color: var(--user-message-text);
+  border-color: var(--primary-color);
 }
-.setting-text, .location-text { color: var(--text-secondary); margin: 0; }
-.feedback-link, .update-location-btn {
-  color: var(--link-color);
+
+.setting-text, .location-text { color: var(--secondary-text-color); margin: 0; }
+
+.manage-account-btn, .feedback-link, .update-location-btn {
+  color: var(--primary-color);
   text-decoration: none;
   background: none;
   border: none;
@@ -40,6 +40,7 @@
   cursor: pointer;
   padding: 0;
 }
-.feedback-link:hover, .update-location-btn:hover { text-decoration: underline; }
+.manage-account-btn:hover, .feedback-link:hover, .update-location-btn:hover { text-decoration: underline; }
+
 .location-text { margin-right: 8px; }
 .update-location-btn { font-size: 0.8rem; }

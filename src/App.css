@@ -1,45 +1,60 @@
 /* --- THIS IS THE FINAL THEME SETUP --- */
 /* Default (Dark Theme) */
-:root {
-  --bg-primary: #131314;
-  --bg-secondary: #1e1f20;
-  --text-primary: #e3e3e3;
-  --text-secondary: #999;
-  --sidebar-bg: #1e1f20;
-  --sidebar-item-bg: #333;
-  --hover-bg: #2a2b2c;
-  --active-bg: #3e4042;
-  --border-color: #555;
-  --link-color: #8ab4f8;
-  --bg-gradient: linear-gradient(to top, #131314 50%, transparent);
+:root, :root.dark {
+  --background-color: #0d1117;
+  --sidebar-background: rgba(13, 17, 23, 0.8);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-background: #2b3035;
+  --card-border-color: rgba(255, 255, 255, 0.1);
+  --text-color: #f0f4f8;
+  --secondary-text-color: #8b949e;
+  --tertiary-text-color: #6a737d;
+  --primary-color: #5a80f0;
+  --accent-color: #7b68ee;
+  --aurora-color-1: rgba(132, 70, 240, 0.2);
+  --aurora-color-2: rgba(200, 100, 255, 0.15);
+  --aurora-color-3: rgba(255, 50, 200, 0.1);
+  --selection-background-color: #3b4249;
+  --selection-border-color: var(--primary-color);
+  --user-message-background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  --ai-message-background: rgba(255, 255, 255, 0.05);
+  --user-message-text: #f0f4f8;
+  --ai-message-text: #f0f4f8;
 }
 
-/* Light Theme */
+/* Light Theme Overrides */
 :root.light {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f0f2f5;
-  --text-primary: #1f1f1f;
-  --text-secondary: #5f6368;
-  --sidebar-bg: #f0f2f5;
-  --sidebar-item-bg: #e0e0e0;
-  --hover-bg: #dcdcdc;
-  --active-bg: #c7c7c7;
-  --border-color: #dadce0;
-  --link-color: #1a73e8;
-  --bg-gradient: linear-gradient(to top, #ffffff 50%, transparent);
+  --background-color: #f0f4f8;
+  --sidebar-background: rgba(240, 244, 248, 0.8);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --card-background: #ffffff;
+  --card-border-color: rgba(0, 0, 0, 0.1);
+  --text-color: #1e2227;
+  --secondary-text-color: #4b5258;
+  --tertiary-text-color: #6a737d;
+  --primary-color: #3b82f6;
+  --accent-color: #3b82f6;
+  --aurora-color-1: rgba(59, 130, 246, 0.2);
+  --aurora-color-2: rgba(240, 140, 50, 0.15);
+  --aurora-color-3: rgba(255, 255, 0, 0.1);
+  --selection-background-color: #d0e0f0;
+  --selection-border-color: #3b82f6;
+  --user-message-background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  --ai-message-background: #ffffff;
+  --user-message-text: #ffffff;
+  --ai-message-text: #1e2227;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 body {
   margin: 0;
-  font-family: 'Google Sans', sans-serif, system-ui;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--background-color); /* This now correctly uses the theme */
+  color: var(--text-color);
 }
-
 html {
   scrollbar-gutter: stable;
 }
