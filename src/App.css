@@ -1,5 +1,6 @@
 /* --- THIS IS THE FINAL THEME SETUP --- */
 /* Default (Dark Theme) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 :root, :root.dark {
   --background-color: #0d1117;
   --sidebar-background: rgba(13, 17, 23, 0.8);
@@ -45,7 +46,7 @@
   --ai-message-text: #1e2227;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 
 body {
   margin: 0;
