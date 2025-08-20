@@ -1,3 +1,5 @@
+/* src/components/Auth/AuthPage.css */
+
 /* All CSS variables are defined here for easy theming */
 :root {
   --auth-bg-color: #111111;
@@ -31,7 +33,6 @@
 /* Main container for the authentication page */
 .auth-page-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -43,6 +44,14 @@
   box-sizing: border-box;
 }
 
+.auth-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2; /* Keep content above background shapes */
+}
+
+
 /* Animation container for the floating background shapes */
 .background-shapes .shape {
   position: absolute;
@@ -50,6 +59,7 @@
   background: linear-gradient(45deg, var(--auth-gradient-start), var(--auth-gradient-end));
   animation: float 20s infinite linear alternate;
   opacity: 0.15;
+  z-index: 1; /* Make sure shapes are in the back */
 }
 
 /* Individual shape sizes and positions for varied animation */
@@ -64,7 +74,7 @@
 }
 
 /* Main header styling */
-.auth-header-main { text-align: center; margin-bottom: 40px; z-index: 2; }
+.auth-header-main { text-align: center; margin-bottom: 40px; }
 .auth-logo { width: 225px; height: 60px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); }
 :root.light .auth-logo { filter: none; }
 .auth-title-main { 
@@ -82,7 +92,6 @@
   display: flex; 
   gap: 30px; 
   align-items: flex-start; 
-  z-index: 2; 
 }
 
 /* Vertical divider between the cards */
@@ -107,7 +116,6 @@
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.8s ease-in-out;
 }
 
-/* Pseudoelements for the dynamic background effects inside the card */
 .auth-card::before,
 .auth-card::after {
   content: '';
@@ -122,7 +130,6 @@
   animation-iteration-count: infinite;
 }
 
-/* The 'before' pseudoelement creates a slow, cosmic flow effect with multiple gradients */
 .auth-card::before {
   background: radial-gradient(circle at 10% 20%, var(--auth-cosmic-1) 0%, transparent 40%),
               radial-gradient(circle at 70% 80%, var(--auth-cosmic-2) 0%, transparent 40%),
@@ -135,7 +142,6 @@
   opacity: 0.9;
 }
 
-/* The 'after' pseudoelement creates a shimmering, holographic border line effect */
 .auth-card::after {
   background: conic-gradient(from 0deg, transparent 0%, transparent 20%, var(--auth-cosmic-6) 30%, transparent 40%, transparent 50%, var(--auth-cosmic-5) 60%, transparent 70%, transparent 100%);
   animation: holographic-spin 18s linear infinite;
@@ -143,25 +149,21 @@
   filter: brightness(1.5) drop-shadow(0 0 20px var(--auth-cosmic-5));
 }
 
-/* Hover effect on the card for a 3D perspective transition */
 .auth-card:hover {
   transform: scale(1.05) perspective(1500px) rotateX(2deg) rotateY(-2deg);
   box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7);
 }
 
-/* Keyframe animation for the cosmic fluid background */
 @keyframes cosmic-flow {
   0% { background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%, 50% 50%; }
   100% { background-position: 100% 100%, 0% 0%, 100% 0%, 0% 100%, 50% 50%; }
 }
 
-/* Keyframe animation for the holographic spinning border */
 @keyframes holographic-spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Inner content area of the auth card */
 .auth-card-inner {
   background: var(--auth-form-bg);
   padding: 30px 40px;
@@ -170,12 +172,10 @@
   box-sizing: border-box;
 }
 
-/* Card header styling */
 .auth-header { text-align: center; margin-bottom: 25px; }
 .auth-title { font-size: 1.8rem; font-weight: 500; margin-bottom: 5px; color: var(--auth-text-primary); }
 .auth-tagline { color: var(--auth-text-secondary); font-size: 0.9rem; margin: 0; }
 
-/* Form and input styling */
 .auth-form { flex-grow: 1; display: flex; flex-direction: column; }
 .input-group { position: relative; margin-bottom: 25px; }
 .input-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--auth-text-secondary); transition: color 0.2s; }
@@ -193,7 +193,6 @@
 .input-group input:focus { outline: none; border-color: var(--auth-link-color); box-shadow: 0 0 15px rgba(193, 164, 255, 0.3); }
 .input-group input:focus ~ .input-icon { color: var(--auth-link-color); }
 
-/* Button styling */
 .auth-button {
   width: 100%;
   padding: 14px;
@@ -205,17 +204,41 @@
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, background-image 0.2s;
 }
 
 :root.light .auth-button { color: #ffffff; }
 .auth-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(193, 164, 255, 0.2); }
-.auth-button:disabled { opacity: 0.6; cursor: not-allowed; }
+.auth-button:disabled { 
+  opacity: 0.6; 
+  cursor: not-allowed;
+  background-image: none; /* Turn off gradient when disabled */
+  background-color: var(--auth-input-bg);
+}
 .auth-error { color: #ff8a8a; margin-top: 15px; text-align: center; font-size: 0.9rem; }
 
-/* Media query for responsive design on smaller screens */
 @media (max-width: 900px) {
   .auth-dual-wrapper { flex-direction: column; gap: 40px; }
   .auth-divider { display: none; }
   .auth-card { width: 100%; max-width: 400px; }
+}
+
+/* Add this to the end of AuthPage.css */
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--auth-text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-toggle button {
+  background: none;
+  border: none;
+  color: var(--auth-link-color);
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 5px;
+  padding: 0;
+  font-size: 0.9rem;
 }

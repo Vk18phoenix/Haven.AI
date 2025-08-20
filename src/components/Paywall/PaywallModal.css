@@ -1,27 +1,121 @@
-.paywall-backdrop { background-color: rgba(0, 0, 0, 0.85); z-index: 2000; backdrop-filter: blur(10px); }
+/* src/components/Paywall/PaywallModal.css */
+
+.paywall-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Your darker backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .paywall-modal {
   text-align: center;
+  width: 90%;
   max-width: 420px;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  
+  /* ======================================================================== */
+  /*            THIS IS THE CORE THEME FIX USING YOUR MAIN VARIABLES          */
+  /* ======================================================================== */
+  background-color: var(--card-background); /* CORRECT VARIABLE */
+  border: 1px solid var(--border-color);     /* CORRECT VARIABLE */
+  color: var(--text-color);                  /* CORRECT VARIABLE */
+  /* ======================================================================== */
+
   padding: 40px;
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.paywall-icon { color: var(--auth-gradient-end); margin-bottom: 15px; }
-.paywall-modal h2 { margin-top: 0; color: var(--text-primary); }
-.paywall-modal p { color: var(--text-secondary); line-height: 1.6; }
-.paywall-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+
+.paywall-icon {
+  color: var(--primary-color); /* Using your app's primary color */
+  margin-bottom: 20px;
+}
+
+.paywall-modal h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-color); /* CORRECT VARIABLE */
+}
+
+.paywall-modal p {
+  color: var(--secondary-text-color); /* CORRECT VARIABLE */
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.paywall-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Your original gap */
+  margin-top: 30px;
+}
+
 .paywall-auth-btn {
-  background-image: linear-gradient(45deg, var(--auth-gradient-start), var(--auth-gradient-end));
-  color: #131314;
+  background-image: linear-gradient(45deg, var(--primary-color), var(--accent-color)); /* CORRECT VARIABLES */
+  color: white; /* Explicitly white for better contrast on gradient */
   border: none;
   padding: 14px;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600; /* Slightly bolder for primary action */
   cursor: pointer;
+  transition: all 0.2s ease;
 }
-:root.light .paywall-auth-btn { color: #ffffff; }
-.paywall-close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; }
-.paywall-footer { font-size: 0.8rem; margin-top: 30px; display: inline-flex; align-items: center; gap: 5px; }
+
+.paywall-auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.paywall-close-btn {
+  background: none;
+  border: none;
+  padding: 10px; /* Add some padding to make it easier to click */
+  color: var(--secondary-text-color); /* CORRECT VARIABLE */
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.paywall-close-btn:hover {
+    background-color: var(--selection-background-color);
+    color: var(--text-color);
+}
+
+.paywall-footer {
+  font-size: 0.8rem;
+  margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Your original gap + a bit more space */
+  color: var(--tertiary-text-color); /* Using a more subtle text color */
+}
+
+
+/* Keyframe animations for modal appearance (from the previous correct version) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,4 +1,4 @@
-// components/Auth/Signup.jsx
+// src/components/Auth/Signup.jsx
 
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -13,18 +13,35 @@ const Signup = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (loading) return;
+
     setError('');
-    if (!displayName) { setError("Display name is required."); return; }
+    if (!displayName) {
+        setError("Display name is required.");
+        return;
+    }
+    if (password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        return;
+    }
+    
     setLoading(true);
     const auth = getAuth();
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName });
-    } catch (error) { 
-      // The error handling is corrected to display a user-friendly message.
+      // On success, onAuthStateChanged in App.jsx will handle navigation.
+    } catch (error) {
+      // Your error handling is good, we'll keep it.
       setError(error.message.replace('Firebase: ', '').replace(/\(auth.*\)\.?/, ''));
+    } finally {
+        // ========================================================================
+        // THE SAME FIX IS APPLIED HERE
+        // This guarantees the button is re-enabled after every signup attempt.
+        setLoading(false);
+        // ========================================================================
     }
-    setLoading(false);
   };
 
   return (
