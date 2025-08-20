@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Login from './Login.jsx';
-import Signup from './Signup.jsx';
+import Signup from './SignUp.jsx';
 import './AuthPage.css';
 
 // Note: In a real project, you would need to import a logo image,
