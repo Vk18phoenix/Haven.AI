@@ -5,6 +5,9 @@ Built with **custom prompt engineering**, it ensures empathetic, validating, and
 
 With **positive reinforcement 🤝, active listening 👂, and empathy ❤️**, Haven.AI connects users with an AI that feels genuinely caring.
 
+🔗 **Live Demo:** [haven-ai-twgz.vercel.app](https://haven-ai-twgz.vercel.app/)  
+📂 **Repository:** [GitHub Repo](https://github.com/Vk18phoenix/Haven.AI)  
+
 ---
 
 ## ✨ Core Features
@@ -13,12 +16,6 @@ With **positive reinforcement 🤝, active listening 👂, and empathy ❤️**,
 - Email/password sign-up & login via **Firebase Authentication**.
 - Persistent user sessions for seamless re-entry.
 - Encrypted profile picture storage with **Firebase Storage**.
-
-### 🧍 Personalized User Experience
-- Greets users by chosen display name.
-- Customizable profile with:
-  - Avatar upload from device (auto-compressed for performance)
-  - Emoji-based avatar generation.
 
 ![User Profile DP](https://raw.githubusercontent.com/Vk18phoenix/Haven.AI/main/User-profile-DP.png)
 
@@ -53,10 +50,16 @@ With **positive reinforcement 🤝, active listening 👂, and empathy ❤️**,
 
 ---
 
+### ⏳ Temporary & Safe Chat Mode
+- **Temporary chats** for logged-in users that don’t save to history.  
+- **Auto-deletion** after 72 hours powered by **Google Cloud Console TTL**.
+
+---
+
 ### ⚙ Comprehensive Settings & Feedback
 - **Theme Switcher**: Light/Dark mode across the app.
 - **Location Services**: Auto-detect city/country with manual refresh.
-- **Feedback Form**: Send suggestions directly via **EmailJS**.
+- **Feedback Form**: Send suggestions directly via **EmailJS**, delivered to the developer’s inbox.
 
 ![Settings](https://github.com/Vk18phoenix/Haven.AI/blob/main/Settings%20box.png)  
 ![Send Feedback](https://github.com/Vk18phoenix/Haven.AI/blob/main/Send%20feedback%20form.png)
@@ -86,11 +89,25 @@ With **positive reinforcement 🤝, active listening 👂, and empathy ❤️**,
 | **Frontend**    | React + Vite ⚡ |
 | **Backend**     | Firebase Authentication 🔐 + Firestore 📂 + Storage 🖼 |
 | **AI Engine**   | Google Gemini API 🤖 |
+| **Cloud**       | Google Cloud Console (TTL for 72hr temp chat deletion) ⏳ |
 | **Hosting**     | Vercel 🚀 |
 | **Third-Party** | EmailJS 📧 |
 | **Browser APIs**| SpeechRecognition 🎙, SpeechSynthesis 🔊, Geolocation 📍 |
 
 ---
+
+
+# Live Demo
+https://haven-ai-twgz.vercel.app/
+
+# GitHub Repository
+https://github.com/Vk18phoenix/Haven.AI
+
+# LinkedIn
+https://www.linkedin.com/in/vk18phoenix/
+
+# Contact Email
+vkalyan782@gmail.com
 
 
 ## 🚀 Getting Started
@@ -107,10 +124,3 @@ npm install
 
 # Start development server
 npm run dev
-
-📌 Links
-
-LinkedIn: https://www.linkedin.com/in/vk18phoenix/  
-Live Demo: https://haven-ai-twgz.vercel.app/
-Contact Email: vkalyan782@gmail.com
-
